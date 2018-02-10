@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <style>
+        html, body, .container {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<div class="container" id="root">
+    <div class="row justify-content-center align-items-center h-50">
+        <div class="col-12 col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <input v-model="newFilm" type="text" class="form-control" placeholder="Recipient's username"
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+
+                    <button @click="search" class="btn btn-outline-secondary" type="button">Search</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div v-if="!(searchItem.song == '')" class="row justify-content-center">
+        <div class="col-md-12">
+
+
+
+                    <img :src="searchItem.image">
+
+                    <iframe  class="h-100 w-100" :src="'https://www.youtube.com/embed/' + getYoutubeId(searchItem.song)"
+                            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<p>{{searchItem.description}}</p>
+            <p>{{searchItem.name}}</p>
+            <p>{{searchItem.planet}}</p>
+                    <!--<iframe h-100 w-100 :src="'https://www.youtube.com/embed/' + getYoutubeId(task.song)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+
+                    <!--<div role="group" aria-label="Basic example" class="btn-group btn-group-sm float-right">-->
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+<script>
+    var app = new Vue({
+        el: "#root",
+        data: {
+            newFilm: "",
+            songItem:"",
+            // tasks: [],
+            films: [],
+            img: "",
+            searchItem: {song:""},
+            isLoad: false,
+        },
+        methods: {
+            getYoutubeId: function (url) {
+                var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+                var match = url.match(regExp);
+                return (match && match[7].length == 11) ? match[7] : false;
+            },
+            search: function () {
+                if (this.newFilm == "") {
+                    alert("Please type in the film name");
+                } else {
+                    for (i = 0; i < this.films.length; i++) {
+                        // console.log(this.newFilm)
+
+                        if (this.films[i].name == this.newFilm) {
+                            // console.log(this.films[i])
+                            // console.log(this.newFilm +i);
+                            console.log(this.searchItem = this.films[i]);
+                            console.log(this.songItem = this.films[i].song);
+                        }
+                        if (i > this.films.length) {
+                            alert("Movie doesn't existe ");
+
+                        }
+                    }
+                }
+
+
+            }
+        },
+    });
+    axios.get('http://codelab.camp/api/spacetoon').then(function (response) {
+        console.log(response);
+        app.films = response.data;
+        console.log(response.data);
+
+    })
+    // app.films=response.data;
+    //
+    // console.log(response.data[0].song);
+</script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+<!--&lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+<!--integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
+<!--<title>Title</title>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+<!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+<!--crossorigin="anonymous"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"-->
+<!--integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"-->
+<!--crossorigin="anonymous"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"-->
+<!--integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"-->
+<!--crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>-->
+<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+
+<!--<script>-->
+<!--var app =new Vue({-->
+<!--el:""-->
+
+<!--})-->
+
+<!--</script>-->
+<!--<script>-->
+<!--axios.get('http://api.jikan.me/anime/235').then(function(response){-->
+<!--console.log(response);});-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
